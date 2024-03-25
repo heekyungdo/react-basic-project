@@ -1,6 +1,12 @@
+import Calculator from "./components/Calculator"
+import List from "./components/List"
+
 function App() {
   return (
-    <h1>React Investment Calculator</h1>
+    <>
+    <Calculator/>
+    <List/>
+    </>
   )
 }
 
