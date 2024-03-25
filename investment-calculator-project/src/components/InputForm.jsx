@@ -1,22 +1,4 @@
-import { useState } from 'react';
-import { calculateInvestmentResults } from '../util/investment';
-
-function InputForm({ name }) {
-    const [userInput, setUserInput] = useState({
-        initialInvestment: 10000,
-        annualInvestment: 1200,
-        expectedReturn: 6,
-        duration: 10
-    });
-
-    function handleChange(inputIdentifier, newValue) {
-        setUserInput(prevUserInput => {
-            return {
-                ...prevUserInput,
-                [inputIdentifier]: newValue
-            };
-        });
-    };
+function InputForm({ onChange, inputValue }) {
 
     return (
         <section id='user-input'>
@@ -25,18 +7,18 @@ function InputForm({ name }) {
                     <label>Initial Investment</label>
                     <input type="number"
                         required
-                        value={userInput.initialInvestment}
+                        value={inputValue.initialInvestment}
                         onChange={(event) =>
-                            handleChange('initialInvestment', event.target.value)
+                            onChange('initialInvestment', event.target.value)
                         } />
                 </p>
                 <p>
                     <label>Annual Investment</label>
                     <input type="number"
                         required
-                        value={userInput.annualInvestment}
+                        value={inputValue.annualInvestment}
                         onChange={(event) =>
-                            handleChange('annualInvestment', event.target.value)
+                            onChange('annualInvestment', event.target.value)
                         } />
                 </p>
             </div>
@@ -45,18 +27,18 @@ function InputForm({ name }) {
                     <label>Expected Return</label>
                     <input type="number"
                         required
-                        value={userInput.expectedReturn}
+                        value={inputValue.expectedReturn}
                         onChange={(event) =>
-                            handleChange('expectedReturn', event.target.value)
+                            onChange('expectedReturn', event.target.value)
                         } />
                 </p>
                 <p>
                     <label>Duration</label>
                     <input type="number"
                         required
-                        value={userInput.duration}
+                        value={inputValue.duration}
                         onChange={(event) =>
-                            handleChange('duration', event.target.value)
+                            onChange('duration', event.target.value)
                         } />
                 </p>
             </div>
