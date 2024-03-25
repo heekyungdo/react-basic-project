@@ -8,6 +8,7 @@ function InputForm({ onChange, inputValue }) {
                     <input type="number"
                         required
                         value={inputValue.initialInvestment}
+                        // event.target.value는 문자열로 반환된다.
                         onChange={(event) =>
                             onChange('initialInvestment', event.target.value)
                         } />

@@ -14,7 +14,8 @@ function App() {
     setUserInput(prevUserInput => {
       return {
         ...prevUserInput,
-        [inputIdentifier]: newValue
+        // + 를 써주면 문자열 값을 숫자 값으로 변환해준다.
+        [inputIdentifier]: +newValue
       };
     });
   };
@@ -22,7 +23,7 @@ function App() {
   return (
     <>
       <InputForm onChange={handleChange} inputValue={userInput} />
-      <Results />
+      <Results input={userInput}/>
     </>
   )
 }
