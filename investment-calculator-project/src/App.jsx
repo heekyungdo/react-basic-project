@@ -1,10 +1,11 @@
 import Calculator from "./components/Calculator"
+import InputForm from "./components/InputForm"
 import List from "./components/List"
 
 function App() {
   return (
     <>
-    <Calculator/>
+    <InputForm/>
     <List/>
     </>
   )

@@ -11,7 +11,7 @@ function List() {
         <table id="result">
             <tr>
                 {CATEGORIES.map((category => (
-                    <th id={category.id}>{category.title}</th>
+                    <th key={category.id}>{category.title}</th>
                 )))}
             </tr>
             <tr>
