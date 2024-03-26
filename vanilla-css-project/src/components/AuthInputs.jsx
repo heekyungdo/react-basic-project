@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import classes from './AuthInputs.module.css';
 
 export default function AuthInputs() {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -22,7 +23,7 @@ export default function AuthInputs() {
 
   return (
     <div id="auth-inputs">
-      <div className="controls">
+      <div className={classes.controls}>
         <p>
           <label>Email</label>
           <input
