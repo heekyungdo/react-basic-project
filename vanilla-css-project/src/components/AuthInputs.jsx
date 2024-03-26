@@ -23,7 +23,7 @@ export default function AuthInputs() {
 
   return (
     <div id="auth-inputs">
-      <div className={classes.controls}>
+      <div className="controls">
         <p>
           <label>Email</label>
           <input
@@ -43,7 +43,7 @@ export default function AuthInputs() {
           />
         </p>
       </div>
-      <div className="actions">
+      <div className={classes.actions}>
         <button type="button" className="text-button">
           Create a new account
         </button>
