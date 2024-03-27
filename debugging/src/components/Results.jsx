@@ -1,11 +1,17 @@
 import { calculateInvestmentResults, formatter } from '../util/investment.js';
 
+// strict mode로 설정했어도 results함수 밖에 있으므로 한번만 실행 
+// const results = []; // results함수 밖에 선언하면 에러 발생
 
+// strict mode로 인해 results함수는 두번 실행
 export default function Results({ input }) {
+
+  // results 함수 안에 선언하면 results함수와 같이 두번 실행되어 에러발생하지 않아.
   const results = [];
+
   calculateInvestmentResults(input, results);
 
-  if(results.length===0){
+  if (results.length === 0) {
     return <p className="center">Invalid input data provided.</p>
   }
   const initialInvestment =
