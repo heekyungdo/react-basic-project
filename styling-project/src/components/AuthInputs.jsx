@@ -60,6 +60,7 @@ export default function AuthInputs() {
       </ControlContainer>
       <div className={classes.actions}>
         <button type="button" className="text-button">
+        {/* <button type="button" style={{color: '#f0b322', border: 'none'}}> */}
           Create a new account
         </button>
         <Button onClick={handleLogin}>Sign In</Button>
