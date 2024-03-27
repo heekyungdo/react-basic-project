@@ -1,5 +1,5 @@
 function Tabs({ buttons, children, ButtonsContainer='menu'}) {
-
+console.log(children)
     return (
         <>
             <ButtonsContainer>
