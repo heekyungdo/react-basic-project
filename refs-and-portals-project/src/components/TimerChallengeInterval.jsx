@@ -25,6 +25,7 @@ function TimerChallengeInterval({ title, targetTime }) {
             setTimeRemaining(prevTimeRemaining => prevTimeRemaining - 10);
         }, 10);
     }
+    
     // 아예 누르지 못했을 때
     function handleStop() {
         dialog.current.open();
