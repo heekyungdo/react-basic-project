@@ -29,7 +29,13 @@ function TimerChallenge({ title, targetTime }) {
     function handleStart() {
         timer.current = setTimeout(() => {
             setTimerExpired(true)
-            dialog.current.showModal();
+            // dialog.current.showModal();
+
+            // open 함수 객체가 TimerChallenge dialog에 참조에 저장되며
+            // TimerChallenge 컴포넌트 내에 있다.
+            // ref 값으로 ResultModal 컴포넌트로 전달하기 때문에.
+            // forwardRef와 useImperativeHandle훅으로 인해 open 객체와 연결 가능.
+            dialog.current.open();
             // 1000 곱해서 밀리초로 변환.
         }, targetTime * 1000);
         // 타이머 설정되고 바로 실행
