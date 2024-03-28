@@ -13,8 +13,11 @@ function TimerChallengeInterval({ title, targetTime }) {
     // 너무 늦게 눌렀을 때 (시간이 남아 있지 않을 때))
     if (timeRemaining <= 0) {
         clearInterval(timer.current);
-        setTimeRemaining(targetTime * 1000);
         dialog.current.open();
+    }
+
+    function handleReset() {
+        setTimeRemaining(targetTime * 1000);
     }
 
     function handleStart() {
@@ -30,7 +33,11 @@ function TimerChallengeInterval({ title, targetTime }) {
 
     return (
         <>
-            <ResultModal ref={dialog} result='lost' targetTime={targetTime} />
+            <ResultModal
+                ref={dialog}
+                targetTime={targetTime}
+                remainingTime={timeRemaining}
+                onReset={handleReset} />
             <section className="challenge">
                 <h2>{title}</h2>
                 <p className="challenge-time">
