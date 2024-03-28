@@ -1,15 +1,16 @@
 import Player from './components/Player.jsx';
-import TimerChallenge from './components/TimerChallenge.jsx';
+// import TimerChallenge from './components/TimerChallenge.jsx';
+import TimerChallengeInterval from './components/TimerChallengeInterval.jsx';
 
 function App() {
   return (
     <>
       <Player />
       <div id="challenges">
-        <TimerChallenge title="Easy" targetTime={1}/>
-        <TimerChallenge title="Not Easy" targetTime={5}/>
-        <TimerChallenge title="Getting Tough" targetTime={10}/>
-        <TimerChallenge title="Props Only" targetTime={15}/>
+        <TimerChallengeInterval title="Easy" targetTime={1}/>
+        <TimerChallengeInterval title="Not Easy" targetTime={5}/>
+        <TimerChallengeInterval title="Getting Tough" targetTime={10}/>
+        <TimerChallengeInterval title="Props Only" targetTime={15}/>
       </div>
     </>
   );
