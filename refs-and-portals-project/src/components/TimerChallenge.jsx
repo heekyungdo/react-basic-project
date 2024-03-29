@@ -27,6 +27,7 @@ function TimerChallenge({ title, targetTime }) {
     // let timer; => 상태 업데이트되며 재생성된다.
 
     function handleStart() {
+        // setTimeout은 남은 시간을 카운트 할 수 없어
         timer.current = setTimeout(() => {
             setTimerExpired(true)
             // dialog.current.showModal();
