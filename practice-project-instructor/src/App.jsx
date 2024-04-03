@@ -19,9 +19,28 @@ function App() {
     });
   }
 
+  function handleAddProject(projectData) {
+    setProjectsState((prevState) => {
+      const newProject = {
+        ...projectData,
+        id: Date.now()
+      };
+
+      return {
+        ...prevState,
+        projects: [
+          ...prevState.projects,
+          newProject
+        ]
+      }
+    })
+  }
+
+  console.log(projectsState)
+
   let content;
   if (projectsState.selectedId === null) {
-    content = <NewProject />
+    content = <NewProject onAdd={handleAddProject} />
   } else {
     content = <NoSelectedProject onStartAddProject={handleStartAddProject} />
   }
