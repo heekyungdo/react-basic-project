@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const Modal = forwardRef(function Modal({ children }, ref) {
+const Modal = forwardRef(function Modal({ children, buttonCaption }, ref) {
     const dialog = useRef();
 
     // 컴포넌트 밖에서 호출된 함수 노출하기 위해 사용
@@ -20,6 +20,10 @@ const Modal = forwardRef(function Modal({ children }, ref) {
     return createPortal(
         <dialog ref={dialog}>
             {children}
+            {/*  모달 닫기 */}
+            <form method="dialog">
+                <button>{buttonCaption}</button>
+            </form>
         </dialog>
         , document.getElementById('modal-root'));
 });
