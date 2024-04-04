@@ -8,8 +8,32 @@ function App() {
 
   const [projectsState, setProjectsState] = useState({
     selectedId: undefined,
-    projects: []
+    projects: [],
+    tasks: []
   });
+
+  function handleAddTask(text) {
+    setProjectsState((prevState) => {
+      const newTask = {
+        text,
+        // 선택된 프로젝트가 있어야 task 추가 할 수 있음.
+        projectId: prevState.selectedId,
+        id: Date.now()
+      };
+
+      return {
+        ...prevState,
+        tasks: [
+          newTask,
+          ...prevState.tasks
+        ]
+      };
+    });
+  }
+
+  function handleDeleteTask() {
+
+  }
 
   function handleSelectProejct(id) {
     setProjectsState((prevState) => {
@@ -52,8 +76,8 @@ function App() {
           ...prevState.projects,
           newProject
         ]
-      }
-    })
+      };
+    });
   }
 
   function handleDeleteProject() {
@@ -68,12 +92,20 @@ function App() {
 
   const selectedProject = projectsState.projects.find(project => project.id === projectsState.selectedId);
 
-  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />;
+  let content = <SelectedProject
+    project={selectedProject}
+    onDelete={handleDeleteProject}
+    onAddTask={handleAddTask}
+    onDeleteTask={handleDeleteTask}
+    tasks={projectsState.tasks} />;
 
   if (projectsState.selectedId === null) {
-    content = <NewProject onAdd={handleAddProject} onCancle={handleCancleAddProject} />
+    content = <NewProject
+      onAdd={handleAddProject}
+      onCancle={handleCancleAddProject} />
   } else if (projectsState.selectedId === undefined) {
-    content = <NoSelectedProject onStartAddProject={handleStartAddProject} />
+    content = <NoSelectedProject
+      onStartAddProject={handleStartAddProject} />
   }
 
   return (
