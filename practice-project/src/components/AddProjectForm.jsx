@@ -1,8 +1,8 @@
 import { useState, forwardRef,useRef } from "react";
 
-const AddProjectForm = forwardRef(function AddProjectForm({ onSave }, refs) {
+const AddProjectForm = forwardRef(function AddProjectForm({ onSave }, ref) {
 
-    const { title, description, date } = refs
+    const { title, description, date } = ref
 
     return (
         <div>
