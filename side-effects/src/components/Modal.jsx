@@ -6,10 +6,8 @@ const Modal = function Modal({ open, onClose, children }) {
 
     useEffect(() => {
         if (open) {
-            console.log('open')
             dialog.current.showModal();
         } else {
-            console.log('close')
             dialog.current.close();
         }
     }, [open])
