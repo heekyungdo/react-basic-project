@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -59,7 +59,8 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  // useCallback 훅을 사용함으로써 추가적인 안정성 제공 (모달이 닫히면 이 함수가 재생성되지 않아, 하지만 더 안정적이게 useCallback 사용)
+  const handleRemovePlace = useCallback(function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
@@ -68,7 +69,7 @@ function App() {
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
     localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)));
-  }
+  }, []);
 
   return (
     <>
@@ -78,7 +79,13 @@ function App() {
           onConfirm={handleRemovePlace}
         />
       </Modal> */}
-      <Modal open={modalIsOpen}>
+      <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
+        {/* 1. modalIsOpen을 false로 설정하고 */}
+        {/* 2. <DeleteConfirmation />이 DOM으로 부터 삭제되게 함으로써 */}
+        {/* 3. Modal 컴포넌트가 DOM으로부터 자식을 삭제하도록 유도한다 -> {open ? children : null} */}
+        {/* 4. Modal 컴포넌트의 자식 속성은 해당 <DeleteConfirmation />를 지니게 되어 */}
+        {/* 5. 무한 루프에 빠지지 않는다. */}
+        {/* 6. 왜? <DeleteConfirmation /> 컴포넌트가 사라지기 때문에 */}
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}

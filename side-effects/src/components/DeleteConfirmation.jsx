@@ -1,4 +1,23 @@
+import { useEffect } from "react";
+
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+
+  // Modal cancel을 누르 이후에도 작동된다. 
+  // useEffect 사용해줘야한다.
+  // setTimeout(() => {
+  //   onConfirm();
+  // }, 3000);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onConfirm();
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [])
+
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>
