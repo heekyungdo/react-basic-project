@@ -4,7 +4,7 @@ import QuestionTimer from "./QuestionTimer";
 import QUESTIONS from '../questions.js'
 
 export default function Question({
-    key,
+    index,
     onSelectAnswer,
     onSkipAnswer }) {
 
@@ -17,7 +17,7 @@ export default function Question({
         setTimeout(() => {
             setAnswer({
                 selectedAnswer: answer,
-                isCorrect: QUESTIONS[key].answers[0] === answer
+                isCorrect: QUESTIONS[index].answers[0] === answer
             })
             // 정답인지 오답인지 2초 안에 보여준다.
             setTimeout(() => {
@@ -38,10 +38,10 @@ export default function Question({
                 timeout={10000}
                 onTimeout={onSkipAnswer} />
             <h2>
-                {QUESTIONS[key].text}
+                {QUESTIONS[index].text}
             </h2>
             <Answers
-                answers={QUESTIONS[key].answers}
+                answers={QUESTIONS[index].answers}
                 selectedAnswer={answer.selectedAnswer}
                 answerState={answerState}
                 onSelect={onSelectAnswer}

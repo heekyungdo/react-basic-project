@@ -49,6 +49,7 @@ export default function Quiz() {
             <Question
                 // Question 컴포넌트 초기화시키기 위해 key 사용
                 key={activeQuestionIndex}
+                index={activeQuestionIndex}
                 onSelectAnswer={handleSelectAnswer}
                 onSkipAnswer={handleSkipAnswer} />
         </div>
