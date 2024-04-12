@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 
 import quizCompleteImg from '../assets/quiz-complete.png'
 import QUESTIONS from '../questions.js';
-import QuestionTimer from "./QuestionTimer.jsx";
+import Question from "./Question.jsx";
 
 export default function Quiz() {
     const [answerState, setAnswerState] = useState('');
@@ -58,51 +58,17 @@ export default function Quiz() {
         );
     }
 
-    // 퀴즈가 완료된 이후인 이 자리에 와야 에러 발생하지 않음.
-    // 그래야만 이 코드가 아직 표시할 문제가 남아 있을 때만 실행될 수 있다.
-    const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-    // 100가지의 경우의 수 중에서 50개는 양수, 50개는 음수가 된다.
-    shuffledAnswers.sort(() => Math.random() - 0.5);
-    console.log(userAnswers[userAnswers.length - 1])
     return (
         <div id="quiz">
-            <div id="question">
-                <QuestionTimer
-                    // 여기서 key 속성은 컴포넌트 삭제하고 재생성하기 위해 사용 => 새로운 질문 나올 때마다 타이머 리셋시키기 위해서
-                    key={activeQuestionIndex}
-                    timeout={10000}
-                    onTimeout={handleSkipAnswer} />
-                <h2>
-                    {QUESTIONS[activeQuestionIndex].text}
-                </h2>
-                <ul id="answers">
-                    {shuffledAnswers.map(answer => {
-                        const isSelected = userAnswers[userAnswers.length - 1] === answer;
-
-                        let cssClass = '';
-
-                        if (answerState === 'answered' && isSelected) {
-                            cssClass = 'selected';
-                        }
-
-                        if ((answerState === 'correct' || answerState === 'wrong') && isSelected) {
-                            cssClass = answerState;
-                        }
-
-                        return (
-                            <li key={answer} className="answer">
-                                <button
-                                    onClick={() => handleSelectAnswer(answer)}
-                                    className={cssClass}>
-                                    {answer}
-                                </button>
-                            </li>
-                        )
-                    }
-
-                    )}
-                </ul>
-            </div>
+            <Question
+                // Question 컴포넌트 초기화시키기 위해 key 사용
+                key={activeQuestionIndex}
+                questionText={QUESTIONS[activeQuestionIndex].text}
+                answers={QUESTIONS[activeQuestionIndex].answers}
+                onSelectAnswer={handleSelectAnswer}
+                selectedAnswer={userAnswers[userAnswers.length - 1]}
+                answerState={answerState}
+                onSkipAnswer={handleSkipAnswer} />
         </div>
     )
 }
