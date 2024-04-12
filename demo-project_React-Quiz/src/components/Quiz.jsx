@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import quizCompleteImg from '../assets/quiz-complete.png'
 import QUESTIONS from '../questions.js';
@@ -19,14 +19,20 @@ export default function Quiz() {
     // 퀴즈가 완료되었을 때 에러가 발생하는 이유는 이미 모든 질문에 답을 해버렸기 때문에
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
-    function HandleSelectAnswer(selectedAnswer) {
+    const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer) {
         setUserAnswers((prevAnswers) => {
             return [
                 ...prevAnswers,
                 selectedAnswer
             ];
         });
-    }
+    }, []);
+
+
+    // 타이머가 만료되면 일어나는 현상
+    const handleSkipAnswer = useCallback(() =>
+        handleSelectAnswer(null),
+        [handleSelectAnswer]);
 
     if (quizIsComplete) {
         return (
@@ -46,14 +52,18 @@ export default function Quiz() {
     return (
         <div id="quiz">
             <div id="question">
-                <QuestionTimer timeout={10000} onTimeout={() => HandleSelectAnswer(null)} />
+                <QuestionTimer
+                    // 여기서 key 속성은 컴포넌트 삭제하고 재생성하기 위해 사용 => 새로운 질문 나올 때마다 타이머 리셋시키기 위해서
+                    key={activeQuestionIndex}
+                    timeout={10000}
+                    onTimeout={handleSkipAnswer} />
                 <h2>
                     {QUESTIONS[activeQuestionIndex].text}
                 </h2>
                 <ul id="answers">
                     {shuffledAnswers.map(answer =>
                         <li key={answer} className="answer">
-                            <button onClick={() => HandleSelectAnswer(answer)}>
+                            <button onClick={() => handleSelectAnswer(answer)}>
                                 {answer}
                             </button>
                         </li>
