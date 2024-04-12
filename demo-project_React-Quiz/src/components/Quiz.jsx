@@ -5,10 +5,9 @@ import QUESTIONS from '../questions.js';
 import Question from "./Question.jsx";
 
 export default function Quiz() {
-    const [answerState, setAnswerState] = useState('');
     const [userAnswers, setUserAnswers] = useState([]);
 
-    const activeQuestionIndex = answerState === '' ? userAnswers.length : userAnswers.length - 1;
+    const activeQuestionIndex = userAnswers.length;
 
     // ** 이 자리에 두면 에러발생
     // const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
@@ -21,7 +20,6 @@ export default function Quiz() {
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
     const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer) {
-        setAnswerState('answered')
         setUserAnswers((prevAnswers) => {
             return [
                 ...prevAnswers,
@@ -29,19 +27,7 @@ export default function Quiz() {
             ];
         });
 
-        setTimeout(() => {
-            if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
-                setAnswerState('correct');
-            } else {
-                setAnswerState('wrong');
-            }
-
-            setTimeout(() => {
-                setAnswerState('');
-            }, 2000)
-        }, 1000);
-
-    }, [activeQuestionIndex]);
+    }, []);
 
 
     // 타이머가 만료되면 일어나는 현상
@@ -63,11 +49,7 @@ export default function Quiz() {
             <Question
                 // Question 컴포넌트 초기화시키기 위해 key 사용
                 key={activeQuestionIndex}
-                questionText={QUESTIONS[activeQuestionIndex].text}
-                answers={QUESTIONS[activeQuestionIndex].answers}
                 onSelectAnswer={handleSelectAnswer}
-                selectedAnswer={userAnswers[userAnswers.length - 1]}
-                answerState={answerState}
                 onSkipAnswer={handleSkipAnswer} />
         </div>
     )
