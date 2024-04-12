@@ -28,8 +28,10 @@ export default function Question({
 
     let answerState = '';
 
-    if (answer.selectedAnswer) {
+    if (answer.selectedAnswer && answer.isCorrect !== null) {
         answerState = answer.isCorrect ? 'correct' : 'wrong';
+    } else if (answer.selectedAnswer) {
+        answerState = 'answered';
     }
 
     return (
@@ -44,7 +46,7 @@ export default function Question({
                 answers={QUESTIONS[index].answers}
                 selectedAnswer={answer.selectedAnswer}
                 answerState={answerState}
-                onSelect={onSelectAnswer}
+                onSelect={handleSelectAnswer}
             />
         </div>
     )
