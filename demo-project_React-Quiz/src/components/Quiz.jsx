@@ -5,9 +5,10 @@ import QUESTIONS from '../questions.js';
 import QuestionTimer from "./QuestionTimer.jsx";
 
 export default function Quiz() {
+    const [answerState, setAnswerState] = useState('');
     const [userAnswers, setUserAnswers] = useState([]);
 
-    const activeQuestionIndex = userAnswers.length;
+    const activeQuestionIndex = answerState === '' ? userAnswers.length : userAnswers.length - 1;
 
     // ** 이 자리에 두면 에러발생
     // const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
@@ -20,13 +21,27 @@ export default function Quiz() {
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
     const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer) {
+        setAnswerState('answered')
         setUserAnswers((prevAnswers) => {
             return [
                 ...prevAnswers,
                 selectedAnswer
             ];
         });
-    }, []);
+
+        setTimeout(() => {
+            if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
+                setAnswerState('correct');
+            } else {
+                setAnswerState('wrong');
+            }
+
+            setTimeout(() => {
+                setAnswerState('');
+            }, 2000)
+        }, 1000);
+
+    }, [activeQuestionIndex]);
 
 
     // 타이머가 만료되면 일어나는 현상
@@ -48,7 +63,7 @@ export default function Quiz() {
     const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
     // 100가지의 경우의 수 중에서 50개는 양수, 50개는 음수가 된다.
     shuffledAnswers.sort(() => Math.random() - 0.5);
-
+    console.log(userAnswers[userAnswers.length - 1])
     return (
         <div id="quiz">
             <div id="question">
@@ -61,12 +76,30 @@ export default function Quiz() {
                     {QUESTIONS[activeQuestionIndex].text}
                 </h2>
                 <ul id="answers">
-                    {shuffledAnswers.map(answer =>
-                        <li key={answer} className="answer">
-                            <button onClick={() => handleSelectAnswer(answer)}>
-                                {answer}
-                            </button>
-                        </li>
+                    {shuffledAnswers.map(answer => {
+                        const isSelected = userAnswers[userAnswers.length - 1] === answer;
+
+                        let cssClass = '';
+
+                        if (answerState === 'answered' && isSelected) {
+                            cssClass = 'selected';
+                        }
+
+                        if ((answerState === 'correct' || answerState === 'wrong') && isSelected) {
+                            cssClass = answerState;
+                        }
+
+                        return (
+                            <li key={answer} className="answer">
+                                <button
+                                    onClick={() => handleSelectAnswer(answer)}
+                                    className={cssClass}>
+                                    {answer}
+                                </button>
+                            </li>
+                        )
+                    }
+
                     )}
                 </ul>
             </div>

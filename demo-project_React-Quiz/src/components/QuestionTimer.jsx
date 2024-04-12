@@ -13,7 +13,6 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
     // 카운터타이머 이후에 배열이 쌓이게
     useEffect(() => {
-        console.log('timeout')
         const timer = setTimeout(onTimeout, timeout);
 
         return () => {
@@ -23,7 +22,6 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
     // 질문 카운터
     useEffect(() => {
-        console.log('interval')
         const interval = setInterval(() => {
             setRemainingTime(prevTime => prevTime - 100)
         }, 100);
