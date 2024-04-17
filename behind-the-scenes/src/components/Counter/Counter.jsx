@@ -1,4 +1,4 @@
-import { useState, memo, useCallback, useMemo, useEffect } from 'react';
+import { useState, memo, useCallback, useMemo } from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -39,9 +39,9 @@ const Counter = memo(function Counter({ initialCount }) {
   // 또, 다른 컴포넌트 함수 실행을 야기하기 때문에.
   // initialCount가 바뀔 때마다 컴포넌트가 reset되도록
   // initialCount를 컴포넌트 키에 사용하는 것이 좋아.
-  useEffect(() => {
-    setCounterChanges([{ value: initialCount, id: Math.random() * 1000 }])
-  }, [initialCount]);
+  // useEffect(() => {
+  //   setCounterChanges([{ value: initialCount, id: Math.random() * 1000 }])
+  // }, [initialCount]);
 
   // const [counter, setCounter] = useState(initialCount);
   const [counterChanges, setCounterChanges] = useState([{ value: initialCount, id: Math.random() * 1000 }]);
