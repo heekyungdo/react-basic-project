@@ -1,4 +1,4 @@
-import { useState, memo, useCallback, useMemo } from 'react';
+import { useState, memo, useCallback, useMemo, useEffect } from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -32,6 +32,16 @@ const Counter = memo(function Counter({ initialCount }) {
     () => isPrime(initialCount),
     [initialCount]
   );
+
+  // initialCount가 처음 컴포넌트 생성 이후 리셋하기 위해 useEffect 사용
+  // 하지만 useEffect 사용은 제한하는게 좋아.
+  // 대부분 최적의 방법으로 쓰이지 않고, 추가적인 컴포넌트 실행을 요구하기 때문에. 
+  // 또, 다른 컴포넌트 함수 실행을 야기하기 때문에.
+  // initialCount가 바뀔 때마다 컴포넌트가 reset되도록
+  // initialCount를 컴포넌트 키에 사용하는 것이 좋아.
+  useEffect(() => {
+    setCounterChanges([{ value: initialCount, id: Math.random() * 1000 }])
+  }, [initialCount]);
 
   // const [counter, setCounter] = useState(initialCount);
   const [counterChanges, setCounterChanges] = useState([{ value: initialCount, id: Math.random() * 1000 }]);
