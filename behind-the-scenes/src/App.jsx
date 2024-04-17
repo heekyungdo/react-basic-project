@@ -12,6 +12,7 @@ function App() {
 
   function handleSetCounter(newCount) {
     setChosenCount(newCount);
+    console.log(chosenCount)
   }
 
   return (
