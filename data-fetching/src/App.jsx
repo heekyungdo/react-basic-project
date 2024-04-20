@@ -2,14 +2,17 @@ import { useRef, useState, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import Modal from './components/Modal.jsx';
+import Error from './components/Error.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
+import { updateUserPlaces } from './http.js'
 
 function App() {
   const selectedPlace = useRef();
 
   const [userPlaces, setUserPlaces] = useState([]);
+  const [errorUpdatingPlaces, setErrorUpdatingPlaces] = useState();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -22,7 +25,9 @@ function App() {
     setModalIsOpen(false);
   }
 
-  function handleSelectPlace(selectedPlace) {
+  async function handleSelectPlace(selectedPlace) {
+    // await updateUserPlaces([selectedPlace, ...userPlaces]);
+
     setUserPlaces((prevPickedPlaces) => {
       if (!prevPickedPlaces) {
         prevPickedPlaces = [];
@@ -32,6 +37,21 @@ function App() {
       }
       return [selectedPlace, ...prevPickedPlaces];
     });
+
+    try {
+      // 상태 업데이트는 코드 다음 줄에서 바로 이루어지지 않고, 
+      // 다음 번 컴포넌트 함수가 실행되고 나서 이루어진다.
+      // 그래서 이전 상태를 사용하고 있는 userPlaces를 이 새 배열에 추출한다.
+      // 그 다음 상태를 업데이트 하면서 새로운 selectedPlace를 추가해준다.
+      await updateUserPlaces([selectedPlace, ...userPlaces]);
+
+    } catch (error) {
+      // 요청을 보낼 때 실패하면
+      // 이 에러를 catch할 때
+      // userPlaces를 그 전의 상태로 재설정한다.
+      setUserPlaces(userPlaces);
+      setErrorUpdatingPlaces({ message: error.message || 'Failed to update places.' });
+    }
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
@@ -39,11 +59,28 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
 
+    await updateUserPlaces(
+      userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+    );
+
     setModalIsOpen(false);
   }, []);
 
+  function handleError() {
+    setErrorUpdatingPlaces(null);
+  }
+
   return (
     <>
+      <Modal open={errorUpdatingPlaces} onClose={handleError}>
+        {errorUpdatingPlaces &&
+          <Error
+            title="An error occurred!"
+            message={errorUpdatingPlaces.message}
+            onConfirm={handleError} />
+        }
+
+      </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
