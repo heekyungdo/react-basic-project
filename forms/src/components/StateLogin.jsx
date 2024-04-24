@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./Input.jsx";
+import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
 
 export default function StateLogin() {
 
@@ -14,8 +15,15 @@ export default function StateLogin() {
     });
 
     // 수정읋 했고, 이메일에 @가 포함되어 있지 않으면
-    const emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
-    const passwordInvalid = didEdit.password && enteredValues.password.trim().length < 6;
+    const emailIsInvalid =
+        didEdit.email &&
+        !isEmail(enteredValues.email) &&
+        !isNotEmpty(enteredValues.email);
+
+    const passwordInvalid =
+        didEdit.password &&
+        !hasMinLength(enteredValues.password, 6) &&
+        !isNotEmpty(enteredValues.password);
 
     function handleSumbit(event) {
         event.preventDefault();
