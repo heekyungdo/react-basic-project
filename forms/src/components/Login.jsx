@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 export default function Login() {
-  const [enteredValues, setEnteredValues] = useState({
-    email: '',
-    password: ''
-  })
+
+  const email = useRef();
+  const password = useRef();
 
   function handleSumbit(event) {
     event.preventDefault();
-    console.log(enteredValues)
+
+    const enteredEmail = email.current.value;
+    const enteredPassword = password.current.value;
   }
 
-  function handleInputChange(identifier, value) {
-    setEnteredValues(prevValues => ({
-      ...prevValues,
-      [identifier]: value
-    }))
-  }
 
   return (
     <form onSubmit={handleSumbit}>
@@ -29,8 +24,8 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
-            onChange={(event) => handleInputChange('email', event.target.value)}
-            value={enteredValues.email} />
+            ref={email}
+          />
         </div>
 
         <div className="control no-margin">
@@ -39,8 +34,8 @@ export default function Login() {
             id="password"
             type="password"
             name="password"
-            onChange={(event) => handleInputChange('password', event.target.value)}
-            value={enteredValues.password} />
+            ref={password}
+          />
         </div>
       </div>
 
