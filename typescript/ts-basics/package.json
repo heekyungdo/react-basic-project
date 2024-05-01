@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "typescript": "^5.4.5"
+  },
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "no-typescript.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
